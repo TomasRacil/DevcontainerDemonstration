@@ -5,6 +5,7 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, Session, declarative_base
 from pydantic import BaseModel
 from os import environ
+import uvicorn
 
 # Database configuration
 # Replace with your actual database credentials
@@ -18,9 +19,8 @@ engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+
 # Define the Todo model
-
-
 class Todo(Base):
     __tablename__ = "todos"
 
@@ -31,9 +31,8 @@ class Todo(Base):
 # Create the table if it doesn't exist
 Base.metadata.create_all(bind=engine)
 
+
 # Pydantic models for request and response
-
-
 class TodoCreate(BaseModel):
     task: str
 
@@ -58,6 +57,11 @@ def get_db():
 app = FastAPI()
 
 # API endpoints
+
+
+@app.get("/")
+def home_todo():
+    return "Ukazkova todo stranka"
 
 
 @app.post("/todos/", response_model=TodoRead)
@@ -89,3 +93,7 @@ def delete_todo(todo_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Todo not found")
     db.delete(db_todo)
     db.commit()
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

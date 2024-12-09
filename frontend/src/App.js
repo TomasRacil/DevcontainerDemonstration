@@ -10,7 +10,7 @@ function App() {
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch('http://backend/todos/'); // Assuming your API is running locally
+      const response = await fetch('/api');
       const data = await response.json();
       setTodos(data);
     } catch (error) {
@@ -20,7 +20,7 @@ function App() {
 
   const addTodo = async () => {
     try {
-      const response = await fetch('http://backend/todos/', {
+      const response = await fetch('/api', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ task: newTodo }),
@@ -35,7 +35,7 @@ function App() {
 
   const deleteTodo = async (id) => {
     try {
-      await fetch(`http://backend/todos/${id}`, { method: 'DELETE' });
+      await fetch(`/api/${id}`, { method: 'DELETE' });
       setTodos(todos.filter((todo) => todo.id !== id));
     } catch (error) {
       console.error('Error deleting todo:', error);
