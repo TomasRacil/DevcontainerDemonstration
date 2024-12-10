@@ -23,9 +23,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     depends_on:
-      db:
+      - db
     ports:
       - 8000:8000
+
   frontend:
     build: ./frontend
     networks:
@@ -34,6 +35,7 @@ services:
       - backend
     ports:
       - 3000:3000
+
 networks:
   backend:
     driver: bridge
