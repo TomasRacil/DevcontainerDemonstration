@@ -8,12 +8,6 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    # healthcheck:
-    #   test: [ "CMD", "curl", "-f", "http://localhost:5432" ]
-    #   interval: 1m30s
-    #   timeout: 10s
-    #   retries: 3
-    #   start_period: 40s
     volumes:
       - db-data:/var/lib/pgsql/data
 
@@ -22,6 +16,7 @@ services:
     # image: devcontainerdemonstration_backend:latest
     restart: unless-stopped
     networks:
+      - frontend
       - backend
     environment:
       POSTGRES_DB: postgres
@@ -31,9 +26,18 @@ services:
       db:
     ports:
       - 8000:8000
-
+  frontend:
+    build: ./frontend
+    networks:
+      - frontend
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
 networks:
   backend:
+    driver: bridge
+  frontend:
     driver: bridge
 
 volumes:
