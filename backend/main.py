@@ -12,12 +12,13 @@ import uvicorn
 db_password = getenv("POSTGRES_PASSWORD", "postgres")
 # db_password = environ["POSTGRES_PASSWORD"]
 db_name = getenv("POSTGRES_DB", "postgres")
-#db_name = environ["POSTGRES_DB"]
+# db_name = environ["POSTGRES_DB"]
 db_user = getenv("POSTGRES_USER", "postgres")
 # db_user = environ["POSTGRES_USER"]
 db_host = "db"
 db_port = "5432"
-DATABASE_URL = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+DATABASE_URL = f"postgresql://{db_user}:{
+    db_password}@{db_host}:{db_port}/{db_name}"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

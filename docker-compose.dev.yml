@@ -15,20 +15,21 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-      target: production
+      target: development
     # image: devcontainerdemonstration_backend:latest
     restart: unless-stopped
-    networks:
-      - frontend
-      - backend
+    volumes:
+      - .:/workspace:cached
+    command: sleep infinity
     environment:
-      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
       POSTGRES_PASSWORD: postgres
     depends_on:
       - db
-    ports:
-      - 8000:8000
+    networks:
+      - frontend
+      - backend
 
   frontend:
     build: ./frontend
