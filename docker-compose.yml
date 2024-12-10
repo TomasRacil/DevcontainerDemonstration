@@ -8,17 +8,27 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    # healthcheck:
+    #   test: [ "CMD", "curl", "-f", "http://localhost:5432" ]
+    #   interval: 1m30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 40s
     volumes:
       - db-data:/var/lib/pgsql/data
 
   backend:
     build: ./backend
+    # image: devcontainerdemonstration_backend:latest
+    restart: unless-stopped
     networks:
       - backend
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    depends_on:
+      db:
     ports:
       - 8000:8000
 
