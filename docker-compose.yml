@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    networks:
+      - backend
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db-data:/var/lib/pgsql/data
+
+  backend:
+    build: ./backend
+    networks:
+      - backend
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 8000:8000
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  db-data:

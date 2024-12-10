@@ -4,14 +4,17 @@ from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, Session, declarative_base
 from pydantic import BaseModel
-from os import environ
+from os import getenv
 import uvicorn
 
 # Database configuration
 # Replace with your actual database credentials
-db_password = environ["POSTGRES_PASSWORD"]
-db_name = environ["POSTGRES_DB"]
-db_user = environ["POSTGRES_USER"]
+db_password = getenv("POSTGRES_PASSWORD", "postgres")
+# db_password = environ["POSTGRES_PASSWORD"]
+db_name = getenv("POSTGRES_DB", "postgres")
+#db_name = environ["POSTGRES_DB"]
+db_user = getenv("POSTGRES_USER", "postgres")
+# db_user = environ["POSTGRES_USER"]
 db_host = "db"
 db_port = "5432"
 DATABASE_URL = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
