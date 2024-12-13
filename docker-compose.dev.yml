@@ -32,7 +32,13 @@ services:
       - backend
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/workspace:cached
+    command: sleep infinity
     networks:
       - frontend
     depends_on:

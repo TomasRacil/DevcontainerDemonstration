@@ -1,4 +1,7 @@
-FROM node:23
+FROM mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm as development
+CMD [ "npm", "start" ]
+
+FROM node:23 as production
 
 WORKDIR /frontend
 
